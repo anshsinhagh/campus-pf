@@ -4,6 +4,7 @@ export interface Node {
   id: string;
   lat: number;
   lng: number;
+  name?: string; // Optional building/location name
 }
 
 export interface Edge {
@@ -28,17 +29,25 @@ function calculateDistance(node1: Node, node2: Node): number {
   return Math.round(R * c); // Distance in meters, rounded
 }
 
-// Define nodes first
+// Define nodes first with meaningful names
 export const nodes: Node[] = [
-  // Original nodes (N1-N30)
-  { id: 'N1', lat: 43.4720, lng: -80.5440 },
+  // Key Locations with Names
+  { id: 'MAT101', lat: 43.4720, lng: -80.5440, name: 'Mathematics Building 101' },
+  { id: 'MAT102', lat: 43.4730, lng: -80.5475, name: 'Mathematics Building 102' },
+  { id: 'CSC107', lat: 43.4740, lng: -80.5450, name: 'Computer Science Lab 107' },
+  { id: 'CSC201', lat: 43.4750, lng: -80.5475, name: 'Computer Science Lab 201' },
+  { id: 'EES101', lat: 43.4715, lng: -80.5435, name: 'Environmental Science Building' },
+  { id: 'GYM', lat: 43.4770, lng: -80.5460, name: 'Campus Gymnasium' },
+  { id: 'HOME', lat: 43.4670, lng: -80.5390, name: 'Student Residence' },
+  
+  // Original nodes (remaining N nodes) - ADDED MISSING NODES
   { id: 'N2', lat: 43.4721, lng: -80.5445 },
   { id: 'N3', lat: 43.4722, lng: -80.5450 },
   { id: 'N4', lat: 43.4723, lng: -80.5455 },
   { id: 'N5', lat: 43.4725, lng: -80.5460 },
   { id: 'N6', lat: 43.4726, lng: -80.5465 },
   { id: 'N7', lat: 43.4728, lng: -80.5470 },
-  { id: 'N8', lat: 43.4730, lng: -80.5475 },
+  { id: 'N8', lat: 43.4729, lng: -80.5472 }, // ADDED MISSING NODE
   { id: 'N9', lat: 43.4732, lng: -80.5480 },
   { id: 'N10', lat: 43.4734, lng: -80.5485 },
   { id: 'N11', lat: 43.4736, lng: -80.5440 },
@@ -48,7 +57,7 @@ export const nodes: Node[] = [
   { id: 'N15', lat: 43.4744, lng: -80.5460 },
   { id: 'N16', lat: 43.4746, lng: -80.5465 },
   { id: 'N17', lat: 43.4748, lng: -80.5470 },
-  { id: 'N18', lat: 43.4750, lng: -80.5475 },
+  { id: 'N18', lat: 43.4751, lng: -80.5473 }, // ADDED MISSING NODE
   { id: 'N19', lat: 43.4752, lng: -80.5480 },
   { id: 'N20', lat: 43.4754, lng: -80.5485 },
   { id: 'N21', lat: 43.4725, lng: -80.5470 },
@@ -60,10 +69,10 @@ export const nodes: Node[] = [
   { id: 'N27', lat: 43.4755, lng: -80.5450 },
   { id: 'N28', lat: 43.4760, lng: -80.5440 },
   { id: 'N29', lat: 43.4765, lng: -80.5470 },
-  { id: 'N30', lat: 43.4770, lng: -80.5460 },
+  { id: 'N30', lat: 43.4768, lng: -80.5462 }, // ADDED MISSING NODE
   
-  // New Southeast Nodes - Main Southeast Path (N31-N40)
-  { id: 'N31', lat: 43.4715, lng: -80.5435 },
+  // New Southeast Nodes - Main Southeast Path 
+  { id: 'N31', lat: 43.4717, lng: -80.5438 }, // ADDED MISSING NODE
   { id: 'N32', lat: 43.4710, lng: -80.5430 },
   { id: 'N33', lat: 43.4705, lng: -80.5425 },
   { id: 'N34', lat: 43.4700, lng: -80.5420 },
@@ -72,9 +81,9 @@ export const nodes: Node[] = [
   { id: 'N37', lat: 43.4685, lng: -80.5405 },
   { id: 'N38', lat: 43.4680, lng: -80.5400 },
   { id: 'N39', lat: 43.4675, lng: -80.5395 },
-  { id: 'N40', lat: 43.4670, lng: -80.5390 },
+  { id: 'N40', lat: 43.4672, lng: -80.5392 }, // ADDED MISSING NODE
   
-  // New Southeast Nodes - Eastern Branch (N41-N50)
+  // New Southeast Nodes - Eastern Branch
   { id: 'N41', lat: 43.4718, lng: -80.5420 },
   { id: 'N42', lat: 43.4716, lng: -80.5405 },
   { id: 'N43', lat: 43.4714, lng: -80.5390 },
@@ -86,7 +95,7 @@ export const nodes: Node[] = [
   { id: 'N49', lat: 43.4702, lng: -80.5300 },
   { id: 'N50', lat: 43.4700, lng: -80.5285 },
   
-  // New Southeast Nodes - Southern Branch (N51-N55)
+  // New Southeast Nodes - Southern Branch
   { id: 'N51', lat: 43.4690, lng: -80.5430 },
   { id: 'N52', lat: 43.4680, lng: -80.5435 },
   { id: 'N53', lat: 43.4670, lng: -80.5440 },
@@ -103,33 +112,50 @@ export function getEdges(): Edge[] {
   };
 
   return [
-    // Original edges
-    { from: 'N1', to: 'N2', weight: calculateDistance(findNode('N1'), findNode('N2')) },
+    // Key location connections
+    { from: 'MAT101', to: 'N2', weight: calculateDistance(findNode('MAT101'), findNode('N2')) },
+    { from: 'MAT101', to: 'N11', weight: calculateDistance(findNode('MAT101'), findNode('N11')) },
+    { from: 'MAT102', to: 'N8', weight: calculateDistance(findNode('MAT102'), findNode('N8')) },
+    { from: 'MAT102', to: 'N9', weight: calculateDistance(findNode('MAT102'), findNode('N9')) },
+    { from: 'CSC107', to: 'N13', weight: calculateDistance(findNode('CSC107'), findNode('N13')) },
+    { from: 'CSC107', to: 'N14', weight: calculateDistance(findNode('CSC107'), findNode('N14')) },
+    { from: 'CSC201', to: 'N18', weight: calculateDistance(findNode('CSC201'), findNode('N18')) },
+    { from: 'CSC201', to: 'N19', weight: calculateDistance(findNode('CSC201'), findNode('N19')) },
+    { from: 'EES101', to: 'N31', weight: calculateDistance(findNode('EES101'), findNode('N31')) },
+    { from: 'EES101', to: 'N32', weight: calculateDistance(findNode('EES101'), findNode('N32')) },
+    { from: 'GYM', to: 'N30', weight: calculateDistance(findNode('GYM'), findNode('N30')) },
+    { from: 'GYM', to: 'N29', weight: calculateDistance(findNode('GYM'), findNode('N29')) },
+    { from: 'HOME', to: 'N40', weight: calculateDistance(findNode('HOME'), findNode('N40')) },
+    { from: 'HOME', to: 'N54', weight: calculateDistance(findNode('HOME'), findNode('N54')) },
+
+    // Original edges (updated to use new node IDs where applicable)
     { from: 'N2', to: 'N3', weight: calculateDistance(findNode('N2'), findNode('N3')) },
     { from: 'N3', to: 'N4', weight: calculateDistance(findNode('N3'), findNode('N4')) },
     { from: 'N4', to: 'N5', weight: calculateDistance(findNode('N4'), findNode('N5')) },
     { from: 'N5', to: 'N6', weight: calculateDistance(findNode('N5'), findNode('N6')) },
     { from: 'N6', to: 'N7', weight: calculateDistance(findNode('N6'), findNode('N7')) },
     { from: 'N7', to: 'N8', weight: calculateDistance(findNode('N7'), findNode('N8')) },
-    { from: 'N8', to: 'N9', weight: calculateDistance(findNode('N8'), findNode('N9')) },
+    { from: 'N8', to: 'MAT102', weight: calculateDistance(findNode('N8'), findNode('MAT102')) },
+    { from: 'MAT102', to: 'N9', weight: calculateDistance(findNode('MAT102'), findNode('N9')) },
     { from: 'N9', to: 'N10', weight: calculateDistance(findNode('N9'), findNode('N10')) },
     { from: 'N11', to: 'N12', weight: calculateDistance(findNode('N11'), findNode('N12')) },
-    { from: 'N12', to: 'N13', weight: calculateDistance(findNode('N12'), findNode('N13')) },
-    { from: 'N13', to: 'N14', weight: calculateDistance(findNode('N13'), findNode('N14')) },
+    { from: 'N12', to: 'CSC107', weight: calculateDistance(findNode('N12'), findNode('CSC107')) },
+    { from: 'CSC107', to: 'N14', weight: calculateDistance(findNode('CSC107'), findNode('N14')) },
     { from: 'N14', to: 'N15', weight: calculateDistance(findNode('N14'), findNode('N15')) },
     { from: 'N15', to: 'N16', weight: calculateDistance(findNode('N15'), findNode('N16')) },
     { from: 'N16', to: 'N17', weight: calculateDistance(findNode('N16'), findNode('N17')) },
     { from: 'N17', to: 'N18', weight: calculateDistance(findNode('N17'), findNode('N18')) },
-    { from: 'N18', to: 'N19', weight: calculateDistance(findNode('N18'), findNode('N19')) },
+    { from: 'N18', to: 'CSC201', weight: calculateDistance(findNode('N18'), findNode('CSC201')) },
+    { from: 'CSC201', to: 'N19', weight: calculateDistance(findNode('CSC201'), findNode('N19')) },
     { from: 'N19', to: 'N20', weight: calculateDistance(findNode('N19'), findNode('N20')) },
-    { from: 'N1', to: 'N11', weight: calculateDistance(findNode('N1'), findNode('N11')) },
+    { from: 'MAT101', to: 'N11', weight: calculateDistance(findNode('MAT101'), findNode('N11')) },
     { from: 'N2', to: 'N12', weight: calculateDistance(findNode('N2'), findNode('N12')) },
-    { from: 'N3', to: 'N13', weight: calculateDistance(findNode('N3'), findNode('N13')) },
+    { from: 'N3', to: 'CSC107', weight: calculateDistance(findNode('N3'), findNode('CSC107')) },
     { from: 'N4', to: 'N14', weight: calculateDistance(findNode('N4'), findNode('N14')) },
     { from: 'N5', to: 'N15', weight: calculateDistance(findNode('N5'), findNode('N15')) },
     { from: 'N6', to: 'N16', weight: calculateDistance(findNode('N6'), findNode('N16')) },
     { from: 'N7', to: 'N17', weight: calculateDistance(findNode('N7'), findNode('N17')) },
-    { from: 'N8', to: 'N18', weight: calculateDistance(findNode('N8'), findNode('N18')) },
+    { from: 'MAT102', to: 'CSC201', weight: calculateDistance(findNode('MAT102'), findNode('CSC201')) },
     { from: 'N9', to: 'N19', weight: calculateDistance(findNode('N9'), findNode('N19')) },
     { from: 'N10', to: 'N20', weight: calculateDistance(findNode('N10'), findNode('N20')) },
     { from: 'N21', to: 'N22', weight: calculateDistance(findNode('N21'), findNode('N22')) },
@@ -139,6 +165,7 @@ export function getEdges(): Edge[] {
     { from: 'N26', to: 'N27', weight: calculateDistance(findNode('N26'), findNode('N27')) },
     { from: 'N27', to: 'N28', weight: calculateDistance(findNode('N27'), findNode('N28')) },
     { from: 'N29', to: 'N30', weight: calculateDistance(findNode('N29'), findNode('N30')) },
+    { from: 'N30', to: 'GYM', weight: calculateDistance(findNode('N30'), findNode('GYM')) },
     
     // Original intersecting paths
     { from: 'N3', to: 'N22', weight: calculateDistance(findNode('N3'), findNode('N22')) },
@@ -147,13 +174,12 @@ export function getEdges(): Edge[] {
     { from: 'N10', to: 'N25', weight: calculateDistance(findNode('N10'), findNode('N25')) },
     { from: 'N12', to: 'N26', weight: calculateDistance(findNode('N12'), findNode('N26')) },
     { from: 'N15', to: 'N27', weight: calculateDistance(findNode('N15'), findNode('N27')) },
-    { from: 'N18', to: 'N28', weight: calculateDistance(findNode('N18'), findNode('N28')) },
+    { from: 'CSC201', to: 'N28', weight: calculateDistance(findNode('CSC201'), findNode('N28')) },
     { from: 'N20', to: 'N29', weight: calculateDistance(findNode('N20'), findNode('N29')) },
 
     // New Southeast Connections
-    
-    // Main Southeast Path (N31-N40 chain)
-    { from: 'N1', to: 'N31', weight: calculateDistance(findNode('N1'), findNode('N31')) },
+    { from: 'MAT101', to: 'EES101', weight: calculateDistance(findNode('MAT101'), findNode('EES101')) },
+    { from: 'EES101', to: 'N31', weight: calculateDistance(findNode('EES101'), findNode('N31')) },
     { from: 'N31', to: 'N32', weight: calculateDistance(findNode('N31'), findNode('N32')) },
     { from: 'N32', to: 'N33', weight: calculateDistance(findNode('N32'), findNode('N33')) },
     { from: 'N33', to: 'N34', weight: calculateDistance(findNode('N33'), findNode('N34')) },
@@ -163,9 +189,10 @@ export function getEdges(): Edge[] {
     { from: 'N37', to: 'N38', weight: calculateDistance(findNode('N37'), findNode('N38')) },
     { from: 'N38', to: 'N39', weight: calculateDistance(findNode('N38'), findNode('N39')) },
     { from: 'N39', to: 'N40', weight: calculateDistance(findNode('N39'), findNode('N40')) },
+    { from: 'N40', to: 'HOME', weight: calculateDistance(findNode('N40'), findNode('HOME')) },
     
-    // Eastern Branch (N41-N50 chain)
-    { from: 'N31', to: 'N41', weight: calculateDistance(findNode('N31'), findNode('N41')) },
+    // Eastern Branch
+    { from: 'EES101', to: 'N41', weight: calculateDistance(findNode('EES101'), findNode('N41')) },
     { from: 'N41', to: 'N42', weight: calculateDistance(findNode('N41'), findNode('N42')) },
     { from: 'N42', to: 'N43', weight: calculateDistance(findNode('N42'), findNode('N43')) },
     { from: 'N43', to: 'N44', weight: calculateDistance(findNode('N43'), findNode('N44')) },
@@ -176,7 +203,7 @@ export function getEdges(): Edge[] {
     { from: 'N48', to: 'N49', weight: calculateDistance(findNode('N48'), findNode('N49')) },
     { from: 'N49', to: 'N50', weight: calculateDistance(findNode('N49'), findNode('N50')) },
     
-    // Southern Branch (N51-N55 chain)
+    // Southern Branch
     { from: 'N32', to: 'N51', weight: calculateDistance(findNode('N32'), findNode('N51')) },
     { from: 'N51', to: 'N52', weight: calculateDistance(findNode('N51'), findNode('N52')) },
     { from: 'N52', to: 'N53', weight: calculateDistance(findNode('N52'), findNode('N53')) },
@@ -191,14 +218,14 @@ export function getEdges(): Edge[] {
     { from: 'N34', to: 'N51', weight: calculateDistance(findNode('N34'), findNode('N51')) },
     { from: 'N36', to: 'N52', weight: calculateDistance(findNode('N36'), findNode('N52')) },
     { from: 'N38', to: 'N53', weight: calculateDistance(findNode('N38'), findNode('N53')) },
-    { from: 'N40', to: 'N54', weight: calculateDistance(findNode('N40'), findNode('N54')) },
+    { from: 'HOME', to: 'N54', weight: calculateDistance(findNode('HOME'), findNode('N54')) },
     
     // Connections back to original network
-    { from: 'N11', to: 'N31', weight: calculateDistance(findNode('N11'), findNode('N31')) },
+    { from: 'N11', to: 'EES101', weight: calculateDistance(findNode('N11'), findNode('EES101')) },
     { from: 'N21', to: 'N32', weight: calculateDistance(findNode('N21'), findNode('N32')) },
     { from: 'N24', to: 'N41', weight: calculateDistance(findNode('N24'), findNode('N41')) },
     { from: 'N28', to: 'N42', weight: calculateDistance(findNode('N28'), findNode('N42')) },
-    { from: 'N30', to: 'N43', weight: calculateDistance(findNode('N30'), findNode('N43')) },
+    { from: 'GYM', to: 'N43', weight: calculateDistance(findNode('GYM'), findNode('N43')) },
   ];
 }
 

@@ -1,3 +1,4 @@
+// src/App.tsx
 import { useState } from 'react';
 import Map from './components/Map';
 import RouteControls from './components/RouteControls';

@@ -55,7 +55,7 @@ export default function RouteControls({
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h1 className="sidebar-title">Campus Navigator</h1>
+        <h1 className="sidebar-title">CampusPF</h1>
         <p className="sidebar-subtitle">Find your optimal route</p>
       </div>
 

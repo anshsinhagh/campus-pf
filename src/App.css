@@ -289,7 +289,36 @@ body {
   }
   
   .sidebar {
+    flex: 0 0 320px;
+    padding: 2rem 1.5rem;
     background: var(--card-bg);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 10;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto; /* Add this line */
+    max-height: 100vh; /* Ensure it doesn't exceed viewport height */
+  }
+
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
   }
   
   .control-group select {
@@ -300,5 +329,229 @@ body {
   
   .leaflet-container {
     background: #0f172a;
+  }
+}
+
+/* Add to your App.css */
+
+.custom-location-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.add-location-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-location-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.custom-form {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.save-location-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--gradient-secondary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.save-location-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.coordinates-help {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.coordinates-help small {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.coordinates-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  padding: 1.25rem;
+  z-index: 1000;
+  border: 1px solid var(--border-color);
+  min-width: 280px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.coordinates-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.coordinates-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.close-panel-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.close-panel-btn:hover {
+  background: #f1f5f9;
+  color: var(--text-primary);
+}
+
+.coordinates-display {
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.coord-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.coord-row:last-child {
+  margin-bottom: 0;
+}
+
+.coord-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.coord-value {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.copy-coords-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 0.5rem;
+}
+
+.copy-coords-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.coordinates-help {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-align: center;
+  display: block;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .coordinates-panel {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
   }
 }

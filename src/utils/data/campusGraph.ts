@@ -4,7 +4,8 @@ export interface Node {
   id: string;
   lat: number;
   lng: number;
-  name?: string; // Optional building/location name
+  name?: string;
+  custom?: boolean; // Mark custom locations
 }
 
 export interface Edge {

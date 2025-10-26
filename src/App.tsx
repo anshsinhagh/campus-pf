@@ -39,7 +39,7 @@ export default function App() {
   };
 
   const handleSetEnd = () => {
-    setEnd([43.4734, -80.5485]); // N8 coordinates
+    setEnd([43.4770, -80.5460]); // N8 coordinates
     setError(null);
   };
 

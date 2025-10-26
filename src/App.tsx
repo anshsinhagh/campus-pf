@@ -8,20 +8,32 @@ import { findShortestPath } from './utils/shortestPath';
 import { nodes, edges } from './utils/data/campusGraph';
 
 export default function App() {
-  const [start, setStart] = useState<LatLngExpression | null>(null);
-  const [end, setEnd] = useState<LatLngExpression | null>(null);
+  const [startNodeId, setStartNodeId] = useState<string | null>(null);
+  const [endNodeId, setEndNodeId] = useState<string | null>(null);
   const [pathNodes, setPathNodes] = useState<LatLngExpression[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Convert node IDs to coordinates
+  const start = startNodeId ? nodes.find(n => n.id === startNodeId) : null;
+  const end = endNodeId ? nodes.find(n => n.id === endNodeId) : null;
+
   const handleCalculateRoute = () => {
-    if (!start || !end) {
+    if (!startNodeId || !endNodeId) {
       setError('Please select both start and end points');
       return;
     }
     
     setError(null);
     try {
-      const path = findShortestPath(nodes, edges, start, end);
+      const startNode = nodes.find(n => n.id === startNodeId);
+      const endNode = nodes.find(n => n.id === endNodeId);
+      
+      if (!startNode || !endNode) {
+        setError('Invalid start or end point selected');
+        return;
+      }
+
+      const path = findShortestPath(nodes, edges, [startNode.lat, startNode.lng], [endNode.lat, endNode.lng]);
       setPathNodes(path);
       console.log('Route calculated successfully');
     } catch (error) {
@@ -32,20 +44,21 @@ export default function App() {
     }
   };
 
-  // Use actual node coordinates that exist in your graph
-  const handleSetStart = () => {
-    setStart([43.4720, -80.5440]); // N1 coordinates
+  const handleSetStart = (nodeId: string) => {
+    setStartNodeId(nodeId);
     setError(null);
   };
 
-  const handleSetEnd = () => {
-    setEnd([43.4770, -80.5460]); // N8 coordinates
+  const handleSetEnd = (nodeId: string) => {
+    setEndNodeId(nodeId);
     setError(null);
   };
 
   return (
     <div className="app-container">
       <RouteControls
+        start={startNodeId}
+        end={endNodeId}
         setStart={handleSetStart}
         setEnd={handleSetEnd}
         calculateRoute={handleCalculateRoute}
@@ -56,7 +69,11 @@ export default function App() {
         </div>
       )}
       <div className="map-container">
-        <Map start={start} end={end} pathNodes={pathNodes} />
+        <Map 
+          start={start ? [start.lat, start.lng] : null} 
+          end={end ? [end.lat, end.lng] : null} 
+          pathNodes={pathNodes} 
+        />
       </div>
     </div>
   );
